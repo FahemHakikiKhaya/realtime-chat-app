@@ -4,10 +4,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { IoKeyOutline, IoMailOutline, IoPersonOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 enum AuthFormType {
   LOGIN = "Login",
@@ -15,8 +16,16 @@ enum AuthFormType {
 }
 
 const AuthForm = () => {
+  const session = useSession();
+  const router = useRouter();
   const [formType, setFormType] = useState<AuthFormType>(AuthFormType.LOGIN);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [router, session.status]);
 
   const {
     register,
@@ -41,16 +50,17 @@ const AuthForm = () => {
   const handleRegister = async (data: FieldValues) => {
     try {
       await axios.post("/api/register", data);
+      await signIn("credentials", data);
       toast.success("Registered successfully", { position: "top-right" });
     } catch (error) {
       toast.error(`${error}`, { position: "top-right" });
     }
   };
 
-  const handleLogin = async (data: FieldValues) => {
+  const handleLogin = async (action: string, data?: FieldValues) => {
     try {
-      const res = await signIn("credentials", {
-        ...data,
+      const res = await signIn(action, {
+        ...(action === "credentials" && data),
         redirect: false,
       });
 
@@ -58,7 +68,9 @@ const AuthForm = () => {
         throw new Error(res.error);
       }
 
-      toast.success("Logged in successfully", { position: "top-right" });
+      if (res?.ok) {
+        toast.success("Logged in successfully", { position: "top-right" });
+      }
     } catch (error) {
       toast.error(`${error}`, { position: "top-right" });
     }
@@ -70,7 +82,7 @@ const AuthForm = () => {
       if (formType === AuthFormType.REGISTER) {
         await handleRegister(data);
       } else if (formType === AuthFormType.LOGIN) {
-        await handleLogin(data);
+        await handleLogin("credentials", data);
       }
     } finally {
       setIsLoading(false);
@@ -122,11 +134,17 @@ const AuthForm = () => {
       </button>
       <div className="divider">OR</div>
       <div className="flex flex-col gap-4">
-        <button className="btn btn-md btn-outline">
+        <button
+          className="btn btn-md btn-outline"
+          onClick={() => handleLogin("google")}
+        >
           <FcGoogle />
           Continue With Google
         </button>
-        <button className="btn btn-md btn-outline">
+        <button
+          className="btn btn-md btn-outline"
+          onClick={() => handleLogin("github")}
+        >
           <FaGithub />
           Continue With Github
         </button>
