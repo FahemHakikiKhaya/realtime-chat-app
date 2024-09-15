@@ -40,15 +40,15 @@ const UserList: FC<UserListProps> = ({ users }) => {
         </h4>
         <ul className="flex flex-col gap-4 px-3 menu">
           {React.Children.toArray(
-            users.map(({ image, name, id }) => {
+            users.map((user) => {
               return (
                 <li
                   className="w-full"
-                  onClick={() => handleOpenConversation({ userId: id })}
+                  onClick={() => handleOpenConversation({ userId: user.id })}
                 >
                   <div className="flex flex-row items-center gap-x-2">
-                    <Avatar image={image || ""} alt="test" />
-                    <p>{name}</p>
+                    <Avatar user={user} />
+                    <p>{user.name}</p>
                   </div>
                 </li>
               );

@@ -72,7 +72,7 @@ const ConversationItem: FC<ConversationItemProps> = ({ conversation }) => {
         {conversation.isGroup ? (
           <AvatarGroup users={conversation.users} />
         ) : (
-          <Avatar image={otherUser?.image || ""} alt="test" />
+          <Avatar user={otherUser} />
         )}
         <div className="flex flex-col w-full">
           <div className="flex flex-row justify-between items-center flex-1">

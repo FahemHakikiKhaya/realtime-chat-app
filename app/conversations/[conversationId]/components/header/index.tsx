@@ -8,6 +8,7 @@ import { FC, useMemo } from "react";
 import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
 import ConversationInfoDrawer from "./components/ProfileDrawer";
 import AvatarGroup from "@/app/components/AvatarGroup";
+import useActiveUser from "@/app/hooks/useActiveUser";
 
 interface HeaderProps {
   conversation:
@@ -19,13 +20,15 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ conversation }) => {
   const otherUser = useOtherUser(conversation);
 
+  const isActive = useActiveUser(otherUser);
+
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.length} members`;
     }
 
-    return "Active";
-  }, [conversation.isGroup, conversation.users.length]);
+    return isActive ? "Active" : "Offline";
+  }, [conversation.isGroup, conversation.users.length, isActive]);
 
   return (
     <>
@@ -40,7 +43,7 @@ const Header: FC<HeaderProps> = ({ conversation }) => {
           {conversation.isGroup ? (
             <AvatarGroup users={conversation.users} />
           ) : (
-            <Avatar image={otherUser?.image || ""} />
+            <Avatar user={otherUser} />
           )}{" "}
           <div className="flex flex-col">
             <p>{conversation.name || otherUser?.name}</p>

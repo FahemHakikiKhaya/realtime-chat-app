@@ -31,14 +31,7 @@ const DesktopSidebar: FC<DesktopSidebarProps> = ({ currentUser }) => {
           className="avatar online cursor-pointer"
           onClick={() => setSettingsModal({ opened: true })}
         >
-          <div className="w-12 rounded-full">
-            <Image
-              loader={() => currentUser?.image}
-              src={currentUser?.image || ""}
-              alt={currentUser?.name || "avatar"}
-              layout="fill"
-            />
-          </div>
+          <Avatar user={currentUser} />
         </div>
         <SettingsModal
           currentUser={currentUser}

@@ -9,6 +9,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { CldUploadButton } from "next-cloudinary";
+import Image from "next/image";
 
 interface SettingsModalProps extends ModalProps {
   currentUser: User | null;
@@ -86,7 +87,14 @@ const SettingsModal: FC<SettingsModalProps> = ({
         </label>
         <p className="label-text mb-2 font-semibold">Photo</p>
         <div className="flex flex-row space-x-4 items-center">
-          <Avatar image={image || currentUser?.image} />
+          <div className="relative w-12 rounded-full">
+            <Image
+              src={image || currentUser?.image || "/default-avatar.jpg"}
+              alt={"avatar"}
+              layout="fill"
+              style={{ position: "absolute" }}
+            />
+          </div>
           <CldUploadButton
             options={{ maxFiles: 1 }}
             uploadPreset="qupzearc"

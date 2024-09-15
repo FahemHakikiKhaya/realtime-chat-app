@@ -3,13 +3,14 @@
 import Avatar from "@/app/components/Avatar";
 import AvatarGroup from "@/app/components/AvatarGroup";
 import Modal from "@/app/components/Modal";
+import useActiveUser from "@/app/hooks/useActiveUser";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import { FullConversationType } from "@/app/types";
-import { Conversation } from "@prisma/client";
+import { Conversation, User } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
-import { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { FC, useMemo, useState } from "react";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import { IoTrash } from "react-icons/io5";
@@ -26,20 +27,27 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
   const session = useSession();
   const otherUser = useOtherUser(conversation);
 
+  const otherUserIsActive = useActiveUser(otherUser);
+
+  const router = useRouter();
+
   const [modal, setModal] = useState({ opened: false });
 
   const { name, status } = useMemo(() => {
     const { users, isGroup, name: groupName } = conversation;
     const name = isGroup ? groupName : otherUser?.name;
 
-    const status = isGroup ? `${users.length} members` : "Active";
+    const otherUserStatus = otherUserIsActive ? "Active" : "Offline";
+
+    const status = isGroup ? `${users.length} members` : otherUserStatus;
 
     return { name, status };
-  }, [conversation, otherUser?.name]);
+  }, [conversation, otherUser?.name, otherUserIsActive]);
 
   const handleDelete = async () => {
     try {
       await axios.delete(`/api/conversations/${conversation.id}`);
+      setModal({ opened: false });
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +84,7 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                 {conversation.isGroup ? (
                   <AvatarGroup users={conversation.users} />
                 ) : (
-                  <Avatar image={otherUser?.image} />
+                  <Avatar user={otherUser} />
                 )}{" "}
               </div>
               <p>{name}</p>
@@ -124,7 +132,7 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                     {React.Children.toArray(
                       groupMembers.map((user) => (
                         <div className="flex flex-row items-center gap-x-3">
-                          <Avatar image={user.image} alt="test" />
+                          <Avatar user={user} />
                           <div className="flex flex-col w-full">
                             <div className="flex flex-row justify-between items-center flex-1">
                               <p className="text-base font-medium text-gray-900">

@@ -32,7 +32,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
     <div>
       <div className={`chat ${isOwnMessage ? "chat-end" : "chat-start"}`}>
         <div className="chat-image avatar">
-          <Avatar image={message.sender.image} />
+          <Avatar user={message?.sender} />
         </div>
 
         {message.image ? (
@@ -52,10 +52,12 @@ const MessageItem: React.FC<MessageItemProps> = ({
             <div className="flex flex-row items-end space-x-2">
               <p>{message.body}</p>
               <p className="text-xs">{format(message.createdAt, "p")}</p>
-              <BiCheckDouble
-                size={18}
-                className={seen ? `text-blue-400` : ""}
-              />
+              {isOwnMessage && (
+                <BiCheckDouble
+                  size={18}
+                  className={seen ? `text-blue-400` : ""}
+                />
+              )}
             </div>
           </div>
         )}
