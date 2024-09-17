@@ -31,7 +31,7 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
 
   const router = useRouter();
 
-  const [modal, setModal] = useState({ opened: false });
+  const [modal, setModal] = useState({ opened: false, loading: false });
 
   const { name, status } = useMemo(() => {
     const { users, isGroup, name: groupName } = conversation;
@@ -45,11 +45,15 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
   }, [conversation, otherUser?.name, otherUserIsActive]);
 
   const handleDelete = async () => {
+    setModal({ ...modal, loading: true });
     try {
       await axios.delete(`/api/conversations/${conversation.id}`);
-      setModal({ opened: false });
+
+      router.push("/conversations");
     } catch (error) {
       console.log(error);
+    } finally {
+      setModal({ opened: false, loading: false });
     }
   };
 
@@ -61,13 +65,13 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
 
   return (
     <div>
-      <div className="drawer drawer-end z-10">
+      <div className="drawer drawer-end z-50">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <label htmlFor="my-drawer-4" className="drawer-button ">
             <HiEllipsisHorizontal
               size={32}
-              className="text-sky-500 hover:text-sky-600 transition cursor-pointer drawer-button"
+              className="transition cursor-pointer drawer-button"
             />
           </label>
         </div>
@@ -77,10 +81,10 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="bg-base-200 text-base-content min-h-full w-80 p-4  ">
+          <div className="bg-base-200 text-base-content min-h-full w-80 p-4 bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
             {/* Sidebar content here */}
             <div className="flex flex-col items-center">
-              <div>
+              <div className="mb-2">
                 {conversation.isGroup ? (
                   <AvatarGroup users={conversation.users} />
                 ) : (
@@ -88,11 +92,11 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                 )}{" "}
               </div>
               <p>{name}</p>
-              <div className="text-sm text-gray-500">{status}</div>
+              <div className="text-sm">{status}</div>
               <div className="flex flex-col gap-3 my-8">
                 <button
-                  className="btn btn-circle "
-                  onClick={() => setModal({ opened: true })}
+                  className="btn btn-circle"
+                  onClick={() => setModal({ opened: true, loading: false })}
                 >
                   <IoTrash size={20} />
                 </button>
@@ -104,18 +108,18 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                 {!conversation.isGroup && (
                   <>
                     <div>
-                      <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                      <dt className="text-sm font-medium sm:w-40 sm:flex-shrink-0">
                         Email
                       </dt>
-                      <dt className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                      <dt className="mt-1 text-sm sm:col-span-2">
                         {otherUser?.email}
                       </dt>
                     </div>
                     <div>
-                      <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                      <dt className="text-sm font-medium sm:w-40 sm:flex-shrink-0">
                         Joined
                       </dt>
-                      <dt className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                      <dt className="mt-1 text-sm sm:col-span-2">
                         {format(
                           otherUser?.createdAt || new Date(),
                           "MM/dd/yyyy"
@@ -126,7 +130,7 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                 )}
                 {conversation.isGroup && (
                   <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                    <p className="text-sm font-medium sm:w-40 sm:flex-shrink-0">
                       Members
                     </p>
                     {React.Children.toArray(
@@ -135,7 +139,7 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
                           <Avatar user={user} />
                           <div className="flex flex-col w-full">
                             <div className="flex flex-row justify-between items-center flex-1">
-                              <p className="text-base font-medium text-gray-900">
+                              <p className="text-base font-medium">
                                 {user.name}
                               </p>
                             </div>
@@ -152,11 +156,17 @@ const ConversationInfoDrawer: FC<ConversationInfoDrawerProps> = ({
       </div>
       <Modal
         opened={modal.opened}
-        onClose={() => setModal({ opened: false })}
+        onClose={() => setModal({ opened: false, loading: false })}
         action={
           <>
-            <button onClick={() => setModal({ opened: false })}>Cancel</button>
-            <button className="btn btn-error" onClick={handleDelete}>
+            <button onClick={() => setModal({ opened: false, loading: false })}>
+              Cancel
+            </button>
+            <button
+              className="btn btn-outline"
+              onClick={handleDelete}
+              disabled={modal.loading}
+            >
               Delete
             </button>
           </>

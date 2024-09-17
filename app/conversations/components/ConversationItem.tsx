@@ -63,12 +63,8 @@ const ConversationItem: FC<ConversationItemProps> = ({ conversation }) => {
   }
 
   return (
-    <li
-      className="w-full cursor-pointer"
-      onClick={handleClick}
-      // onClick={() => handleOpenConversation({ userId: id })}
-    >
-      <div className="flex flex-row items-center gap-x-3 px-2">
+    <li className="w-full cursor-pointer" onClick={handleClick}>
+      <div className="flex flex-row items-center gap-x-3 pl-2 pr-3">
         {conversation.isGroup ? (
           <AvatarGroup users={conversation.users} />
         ) : (
@@ -76,16 +72,16 @@ const ConversationItem: FC<ConversationItemProps> = ({ conversation }) => {
         )}
         <div className="flex flex-col w-full">
           <div className="flex flex-row justify-between items-center flex-1">
-            <p className="text-base font-medium text-gray-900">
+            <p className="text-base font-bold">
               {conversation.name || otherUser?.name}
             </p>
             {true && (
-              <p className="text-xs text-gray-400 font-light">
-                {format(new Date(), "p")}
-              </p>
+              <p className="text-xs font-light">{format(new Date(), "p")}</p>
             )}
           </div>
-          <p className="text-md font-medium text-gray-400">{lastMessageText}</p>
+          <p className={`text-md font-light ${hasSeen && "text-neutral-500"}`}>
+            {lastMessageText}
+          </p>
         </div>
       </div>
     </li>

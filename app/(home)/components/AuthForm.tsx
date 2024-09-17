@@ -9,6 +9,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import LoadingModal from "@/app/components/LoadingModal";
 
 enum AuthFormType {
   LOGIN = "Login",
@@ -120,7 +121,7 @@ const AuthForm = () => {
           {...register("password", { required: true })}
         />
       </label>
-      <button className="btn btn-primary w-full" type="submit">
+      <button className="btn w-full" type="submit">
         {isLoading ? (
           <>
             <span className="loading loading-spinner"></span>

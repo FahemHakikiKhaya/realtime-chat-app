@@ -90,25 +90,29 @@ const ConversationList: React.FC<ConversationListProps> = ({
   }, [conversationId, pusherKey, router]);
 
   return (
-    <div className="fixed inset-y-0 items-center w-[320px]  hidden lg:block">
-      <div className="flex-row flex items-center justify-between">
-        <h4 className="text-2xl font-bold text-neutral-800 py-4 ml-2">
-          Messages
-        </h4>
-        <div
-          className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition"
+    <div
+      className={`lg:fixed ${
+        isOpen ? "hidden" : "relative"
+      } lg:inset-y-0 items-center lg:w-[320px] w-full lg:block border-r-[1px] border-neutral`}
+    >
+      <div className="flex-row flex items-center justify-between py-4 sticky top-0 px-3 bg-[#1D232A] z-50">
+        <h4 className="text-2xl font-bold">Messages</h4>
+        <button
+          className="btn btn-outline btn-circle btn-sm"
           onClick={() => setAddConversationModal({ opened: true })}
         >
-          <MdOutlineGroupAdd size={20} />
-        </div>
+          <MdOutlineGroupAdd size={15} />
+        </button>
       </div>
-      <ul className="menu">
-        {React.Children.toArray(
-          items.map((conversation) => {
-            return <ConversationItem conversation={conversation} />;
-          })
-        )}
-      </ul>
+      <div className="lg:h-[calc(100vh-80px)] overflow-y-scroll lg:px-0 px-3">
+        <ul className="menu p-0">
+          {React.Children.toArray(
+            items.map((conversation) => {
+              return <ConversationItem conversation={conversation} />;
+            })
+          )}
+        </ul>
+      </div>
       <AddConversationModal
         users={users}
         opened={addConversationModal.opened}

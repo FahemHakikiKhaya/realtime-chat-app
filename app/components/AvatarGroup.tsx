@@ -16,7 +16,7 @@ const AvatarGroup: React.FC<AvatarGroupProps> = ({ users }) => {
   };
 
   return (
-    <div className="relative h-11 min-w-11">
+    <div className="relative h-[48px] min-w-[48px]">
       {React.Children.toArray(
         slicedUsers?.map((user, index) => (
           <div

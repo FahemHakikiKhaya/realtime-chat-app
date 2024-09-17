@@ -19,7 +19,7 @@ const DesktopSidebar: FC<DesktopSidebarProps> = ({ currentUser }) => {
   const [settingsModal, setSettingsModal] = useState({ opened: false });
 
   return (
-    <div className="hidden lg:block lg:fixed lg:h-screen lg:left-0 lg:bg-white">
+    <div className="hidden lg:block lg:fixed lg:h-screen lg:left-0 bg-neutral">
       <div className="flex flex-col justify-between items-center h-full px-2 py-4">
         <ul className="menu p-0">
           {React.Children.toArray(

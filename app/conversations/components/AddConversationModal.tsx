@@ -62,12 +62,16 @@ const AddConversationModal: FC<AddConversationModalProps> = ({
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Create a group chat"
-      description="Create a chat with more than 2 people"
+      title="Start a Group Chat"
+      description="Requires 3 or more participants to begin"
       action={
         <>
           <button onClick={onClose}>Cancel</button>
-          <button className="btn btn-primary" onClick={handleSubmit(onSubmit)}>
+          <button
+            className="btn btn-outline"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          >
             Create
           </button>
         </>

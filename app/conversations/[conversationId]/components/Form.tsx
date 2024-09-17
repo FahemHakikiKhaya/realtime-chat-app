@@ -42,14 +42,14 @@ const Form = () => {
   };
 
   return (
-    <div className="py-4 px-4 bg-white border-t flex items-center gap-2 lg:gap-4 w-full">
+    <div className="py-4 px-4 bg-neutral flex items-center gap-2 lg:gap-4 w-full">
       <CldUploadButton
         options={{ maxFiles: 1 }}
         uploadPreset="qupzearc"
         onSuccess={handleUpload}
       >
         {" "}
-        <HiPhoto size={30} className="text-primary cursor-pointer" />{" "}
+        <HiPhoto size={30} className="cursor-pointer" />{" "}
       </CldUploadButton>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -61,10 +61,7 @@ const Form = () => {
           className="input input-bordered input-md w-full rounded-full "
           {...register("message", { required: true })}
         />
-        <button
-          type="submit"
-          className="btn btn-primary btn-outline btn-circle"
-        >
+        <button type="submit" className="btn btn-outline btn-circle">
           <HiPaperAirplane size={18} />
         </button>
       </form>

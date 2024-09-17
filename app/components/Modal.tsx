@@ -33,11 +33,13 @@ const Modal: FC<PropsWithChildren<ModalProps>> = ({
           transition
           className={`w-full max-w-md rounded-xl ${
             noPadding ? "p-0" : "p-6"
-          } bg-white duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0`}
+          } bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0`}
         >
           <DialogTitle className="font-bold">{title}</DialogTitle>
           {description && (
-            <Description className="mt-4">{description}</Description>
+            <Description className="mt-2 text-neutral-500">
+              {description}
+            </Description>
           )}{" "}
           {children}
           {action && (

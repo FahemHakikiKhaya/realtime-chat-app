@@ -39,8 +39,6 @@ const Body: FC<BodyProps> = ({ initialMessages, conversation }) => {
     axios.post(`/api/conversations/${conversationId}/seen`);
   }, [conversationId]);
 
-  console.log(messages);
-
   useEffect(() => {
     pusherClient.subscribe(conversationId);
     bottomRef?.current?.scrollIntoView();

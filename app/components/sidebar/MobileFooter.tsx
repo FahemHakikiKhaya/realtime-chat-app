@@ -13,7 +13,7 @@ const MobileFooter = () => {
   if (isOpen) return null;
 
   return (
-    <div className="lg:hidden fixed bottom-0 w-full">
+    <div className="lg:hidden fixed z-50 bottom-0 w-full bg-neutral">
       <ul className="menu menu-horizontal w-full flex flex-row justify-around">
         {React.Children.toArray(
           routes.map((route) => <MobileItem {...route} />)

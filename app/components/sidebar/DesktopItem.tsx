@@ -14,7 +14,6 @@ const DesktopItem: FC<DesktopItemProps> = ({
   icon: Icon,
   href,
   onClick,
-  active,
 }) => {
   const handleClick = () => {
     if (onClick) {
@@ -24,8 +23,9 @@ const DesktopItem: FC<DesktopItemProps> = ({
 
   return (
     <li onClick={handleClick}>
-      <Link href={href} className="tooltip tooltip-right z-50" data-tip={label}>
+      <Link href={href} className="tooltip tooltip-bottom" data-tip={label}>
         <Icon className="h-6 w-6 shrink-0" />
+        <span className="sr-only">{label}</span>
       </Link>
     </li>
   );

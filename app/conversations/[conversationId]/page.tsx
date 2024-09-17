@@ -13,7 +13,7 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   const messages = await getMessages(params.conversationId);
 
   return (
-    <div className="lg:pl-80 h-full">
+    <div className="lg:pl-80 h-[100vh]">
       <div className="h-full flex flex-col">
         <Header conversation={conversation!} />
         <Body initialMessages={messages} conversation={conversation} />
