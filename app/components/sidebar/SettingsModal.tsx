@@ -87,7 +87,7 @@ const SettingsModal: FC<SettingsModalProps> = ({
         </label>
         <p className="label-text mb-2 font-semibold">Photo</p>
         <div className="flex flex-row space-x-4 items-center">
-          <div className="relative w-12 rounded-full">
+          <div className="relative w-12 h-12 rounded-full overflow-hidden">
             <Image
               src={image || currentUser?.image || "/default-avatar.jpg"}
               alt={"avatar"}
