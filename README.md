@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Real-Time Chat Application
 
-## Getting Started
+A modern and responsive real-time chat application offering seamless personal and group chat experiences with real-time updates, secure authentication, and intuitive design.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Responsive Design**: Built with **Tailwind CSS** and **Headless UI**, the interface adapts to all screen sizes, ensuring a sleek and consistent experience across devices.
+- **Authentication**: Secure login with **NextAuth.js**, supporting both **GitHub** and **Google** OAuth.
+- **Real-Time Messaging**: Personal and group chat functionality powered by **Pusher** for instant, real-time communication.
+- **Backend**: Runs a **Prisma** API alongside **Next.js**, connected to a **MongoDB** database, all within a monolithic repository.
+  
+## 🛠️ Technologies Used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: A powerful React framework for building full-stack applications.
+- **Tailwind CSS**: Utility-first CSS framework for fast, responsive designs.
+- **Headless UI**: Unstyled, accessible UI components.
+- **Pusher**: Real-time communication via websockets.
+- **NextAuth.js**: Simple and secure authentication.
+- **Prisma**: Next-generation ORM for database interaction.
+- **MongoDB**: NoSQL database for handling large-scale data.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📸 Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Coming soon...
 
-## Learn More
+## 🚧 Installation & Setup
 
-To learn more about Next.js, take a look at the following resources:
+To run this project locally:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/realtime-chat-app.git
+1. Install dependency:
+   ```bash
+   npm install
+1. Run the development server:
+   ```bash
+   npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
